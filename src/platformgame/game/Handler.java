@@ -1,6 +1,8 @@
 package platformgame.game;
 
 import platformgame.framework.GameObject;
+import platformgame.framework.ObjectId;
+import platformgame.gameobject.Block;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -33,5 +35,11 @@ public class Handler {
 
     public void removeObject(GameObject object) {
         this.object.remove(object);
+    }
+
+    public void createLevel() {
+        for(int xx =0; xx < Game.WIDTH+32; xx+=32) {
+            addObject(new Block(xx,Game.HEIGHT-32, ObjectId.Block));
+        }
     }
 }

@@ -20,20 +20,21 @@ public abstract class GameObject {
     // Methods tick&render
     public abstract void tick(LinkedList<GameObject> object);
     public abstract void render(Graphics g);
+    public abstract Rectangle getBounds();
 
     // Getters and setters
-    // Position
-    public abstract float getX();
-    public abstract float getY();
-    public abstract void setX(float x);
-    public abstract void setY(float y);
+    //Position
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public void setX(float x) { this.x = x; }
+    public void setY(float y) { this.y = y; }
 
-    // Velocity
-    public abstract float getVelX();
-    public abstract float getVelY();
-    public abstract void setVelX(float velX);
-    public abstract void setVelY(float velY);
+    //Velocity
+    public float getVelX() { return velX; }
+    public float getVelY() { return velY; }
+    public void setVelX(float velX) { this.velX = velX; }
+    public void setVelY(float velY) { this.velY = velY; }
 
-    // Id
-    public abstract ObjectId getId();
+    // ObjectId
+    public ObjectId getId() { return id; }
 }

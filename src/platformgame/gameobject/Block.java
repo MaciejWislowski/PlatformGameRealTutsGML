@@ -6,27 +6,25 @@ import platformgame.framework.ObjectId;
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Test extends GameObject {
+public class Block extends GameObject {
 
-    public Test(float x, float y, ObjectId id) {
+    public Block(float x, float y, ObjectId id) {
         super(x, y, id);
     }
 
     // movement
     public void tick(LinkedList<GameObject> object) {
-        y += 1;
-        x = y;
 
     }
 
     // display
     public void render(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect((int)x,(int)y,20,30);
+        g.setColor(Color.white);
+        g.drawRect((int)x,(int)y,32,32);
     }
 
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle((int)x,(int)y,32,32);
     }
 
     // Getters&Setters

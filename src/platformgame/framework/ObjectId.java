@@ -2,5 +2,6 @@ package platformgame.framework;
 
 public enum ObjectId {
     Player(),
-    Test()
+    Test(),
+    Block
 }

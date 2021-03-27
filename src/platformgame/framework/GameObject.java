@@ -9,6 +9,8 @@ public abstract class GameObject {
     protected float x, y;
     protected ObjectId id;
     protected float velX = 0, velY = 0;
+    protected boolean falling = true;
+    protected boolean jumping = false;
 
     //Constructor
     public GameObject(float x, float y, ObjectId id) {
@@ -34,6 +36,12 @@ public abstract class GameObject {
     public float getVelY() { return velY; }
     public void setVelX(float velX) { this.velX = velX; }
     public void setVelY(float velY) { this.velY = velY; }
+
+    //Jumping&Falling
+    public boolean isFalling() { return falling; }
+    public boolean isJumping() { return jumping; }
+    public void setFalling(boolean falling) { this.falling = falling; }
+    public void setJumping(boolean jumping) { this.jumping = jumping; }
 
     // ObjectId
     public ObjectId getId() { return id; }

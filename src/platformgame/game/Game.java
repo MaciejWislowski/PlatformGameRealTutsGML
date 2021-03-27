@@ -2,6 +2,7 @@ package platformgame.game;
 
 import platformgame.framework.ObjectId;
 import platformgame.gameobject.Block;
+import platformgame.gameobject.Player;
 import platformgame.gameobject.Test;
 
 import java.awt.*;
@@ -11,6 +12,7 @@ public class Game extends Canvas implements Runnable {
 
     private boolean running = false;
     private  Thread thread;
+
 
     public static int WIDTH, HEIGHT;
 
@@ -22,6 +24,8 @@ public class Game extends Canvas implements Runnable {
         HEIGHT = getHeight();
 
         handler = new Handler();
+
+        handler.addObject(new Player(100,100, ObjectId.Player));
 
         handler.createLevel();
     }

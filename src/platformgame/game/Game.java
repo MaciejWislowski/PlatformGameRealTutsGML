@@ -1,5 +1,7 @@
 package platformgame.game;
 
+import platformgame.gameobject.GameObject;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;

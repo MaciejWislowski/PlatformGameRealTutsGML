@@ -1,5 +1,6 @@
 package platformgame.game;
 
+import platformgame.framework.KeyInput;
 import platformgame.framework.ObjectId;
 import platformgame.gameobject.Block;
 import platformgame.gameobject.Player;
@@ -25,9 +26,11 @@ public class Game extends Canvas implements Runnable {
 
         handler = new Handler();
 
-        handler.addObject(new Player(100,100, ObjectId.Player));
+        handler.addObject(new Player(100,100, handler, ObjectId.Player));
 
         handler.createLevel();
+
+        this.addKeyListener(new KeyInput(handler));
     }
 
     public synchronized void start() {

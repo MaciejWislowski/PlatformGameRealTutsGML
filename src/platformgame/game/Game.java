@@ -1,15 +1,24 @@
 package platformgame.game;
 
-import platformgame.gameobject.GameObject;
+import platformgame.framework.ObjectId;
+import platformgame.gameobject.Test;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
 
     private boolean running = false;
     private  Thread thread;
+
+    // Object
+    Handler handler;
+
+    private void init() {
+        handler = new Handler();
+
+        handler.addObject(new Test(5,5, ObjectId.Test));
+    }
 
     public synchronized void start() {
         if (running)
@@ -21,6 +30,8 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void run(){
+        init();
+        this.requestFocus();
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1_000_000_000 / amountOfTicks;
@@ -51,7 +62,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-
+        handler.tick();
     }
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
@@ -65,6 +76,7 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.gray);
         g.fillRect(0,0,800,600);
 
+        handler.render(g);
         ///////////////////////////////////
         g.dispose();
         bs.show();

@@ -1,6 +1,4 @@
-package platformgame.gameobject;
-
-import platformgame.game.ObjectId;
+package platformgame.framework;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -33,10 +31,9 @@ public abstract class GameObject {
     // Velocity
     public abstract float getVelX();
     public abstract float getVelY();
-    public abstract void setVelX(float x);
-    public abstract void setVelY(float y);
+    public abstract void setVelX(float velX);
+    public abstract void setVelY(float velY);
 
     // Id
     public abstract ObjectId getId();
-    public abstract ObjectId setId();
 }

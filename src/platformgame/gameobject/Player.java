@@ -5,6 +5,7 @@ import platformgame.framework.ObjectId;
 import platformgame.game.Game;
 import platformgame.game.Handler;
 import platformgame.game.Physics;
+import platformgame.graphics.Animation;
 import platformgame.graphics.Texture;
 
 import java.awt.*;
@@ -20,10 +21,16 @@ public class Player extends GameObject {
 
      Texture tex = Game.getInstance();
 
+     private Animation playerWalkRight, playerWalkLeft;
+
 
     public Player(float x, float y, Handler handler, ObjectId id) {
         super(x, y, id);
         this.handler = handler;
+
+        playerWalkRight = new Animation(2, tex.player[1], tex.player[2],tex.player[3], tex.player[4], tex.player[5], tex.player[6], tex.player[7]);
+        playerWalkLeft = new Animation(2, tex.player[8], tex.player[9],tex.player[10], tex.player[11], tex.player[12], tex.player[13], tex.player[14]);
+
     }
 
     public void tick(LinkedList<GameObject> object) {
@@ -39,6 +46,9 @@ public class Player extends GameObject {
         }
 
         Collision(object);
+
+        playerWalkRight.runAnimation();
+        playerWalkLeft.runAnimation();
     }
 
     private void Collision(LinkedList<GameObject> object) {
@@ -80,7 +90,15 @@ public class Player extends GameObject {
 
 
     public void render(Graphics g) {
-        g.drawImage(tex.player[0],(int)x,(int)y,(int)width,(int)height,null );
+
+        if(velX > 0 && !this.isJumping()) {
+            playerWalkRight.drawAnimation(g,(int)x,(int)y);
+        }else if(velX < 0  && !this.isJumping()) {
+            playerWalkLeft.drawAnimation(g,(int)x,(int)y);
+        }
+        else{
+            g.drawImage(tex.player[0],(int)x,(int)y,(int)width,(int)height,null );
+        }
     }
 
     // Collisions

@@ -16,7 +16,7 @@ public class Camera {
     // camera movement
     public void tick(GameObject player) {
         x = -player.getX()+Game.WIDTH/2;
-//        y = -player.getY()+Game.HEIGHT*3/4;
+        y = -player.getY()+Game.HEIGHT*3/4;
     }
 
     // Getters&Setters

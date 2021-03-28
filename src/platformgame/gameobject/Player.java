@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Player extends GameObject {
 
     private float width = 32, height = 64;
-    private float gravity = 0.5f;
+    private float gravity = 0.4f;
     private final float MAX_SPEED = 10;
 
      private Handler handler;
@@ -40,8 +40,9 @@ public class Player extends GameObject {
         for (int i = 0; i < handler.object.size();i++) {
             GameObject tempObject = handler.object.get(i);
 
-            // Bottom collisions
+
             if(tempObject.getId() == ObjectId.Block) {
+                // Bottom collisions
                 if(getBounds().intersects(tempObject.getBounds())) {
                     y = tempObject.getY()-height;
                     velY = 0;
@@ -50,25 +51,19 @@ public class Player extends GameObject {
                 } else {
                     falling = true;
                 }
-            }
-            // Top collisions
-            if(tempObject.getId() == ObjectId.Block) {
+
+                // Top collisions
                 if(getBoundsTop().intersects(tempObject.getBounds())) {
                     y = tempObject.getY()+32;
                     velY = 0;
                 }
-            }
-            // Right collisions
-            if(tempObject.getId() == ObjectId.Block) {
+                // Right collisions
                 if(getBoundsRight().intersects(tempObject.getBounds())) {
-                    y = tempObject.getX()-width;
-
+                    x = tempObject.getX()-width;
                 }
-            }
-            // Left collisions
-            if(tempObject.getId() == ObjectId.Block) {
-                if(getBoundsRight().intersects(tempObject.getBounds())) {
-                    y = tempObject.getX()-32;
+                // Left collisions
+                if(getBoundsLeft().intersects(tempObject.getBounds())) {
+                    x = tempObject.getX()+35;
                 }
             }
         }

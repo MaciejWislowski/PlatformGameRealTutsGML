@@ -19,12 +19,14 @@ public class Game extends Canvas implements Runnable {
 
     // Object
     Handler handler;
+    Camera cam;
 
     private void init() {
         WIDTH = getWidth();
         HEIGHT = getHeight();
 
         handler = new Handler();
+        cam = new Camera(0,0);
 
         handler.addObject(new Player(100,100, handler, ObjectId.Player));
 
@@ -76,20 +78,36 @@ public class Game extends Canvas implements Runnable {
 
     private void tick() {
         handler.tick();
+
+        // camera movement connection with player
+        for (int i = 0; i < handler.object.size();i++) {
+            if (handler.object.get(i).getId() == ObjectId.Player) {
+                cam.tick(handler.object.get(i));
+            }
+
+        }
     }
     private void render() {
+        // Buffer strategy
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null) {
             this.createBufferStrategy(3);
             return;
         }
 
+        // Initializations&Casting
         Graphics g = bs.getDrawGraphics();
-        ///////////////////////////////////
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Draw object
         g.setColor(Color.gray);
         g.fillRect(0,0,800,600);
 
+        g2d.translate(cam.getX(), cam.getY()); // begin of cam
+
         handler.render(g);
+
+        g2d.translate(-cam.getX(), -cam.getY()); // end of cam
         ///////////////////////////////////
         g.dispose();
         bs.show();

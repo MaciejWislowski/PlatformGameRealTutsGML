@@ -3,8 +3,12 @@ package platformgame.game;
 import platformgame.framework.GameObject;
 import platformgame.framework.ObjectId;
 import platformgame.gameobject.Block;
+import platformgame.gameobject.Gate;
+import platformgame.gameobject.Player;
+import platformgame.graphics.Texture;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public class Handler {
@@ -12,6 +16,13 @@ public class Handler {
     public LinkedList<GameObject> object = new LinkedList<GameObject>();
 
     private GameObject tempObject;
+    private Camera cam;
+    private Texture tex;
+
+    public Handler(Camera cam, Texture tex) {
+        this.cam = cam;
+        this.tex = tex;
+    }
 
     public void tick(){
         for(int i = 0; i < object.size(); i++) {
@@ -27,6 +38,43 @@ public class Handler {
 
             tempObject.render(g);
         }
+    }
+
+    public void loadImageLevel(BufferedImage image){
+        int w = image.getWidth();
+        int h = image.getHeight();
+
+        System.out.println("Level width: " + w + "; Level height: " + h + ";");
+
+        for(int xx = 0; xx < h; xx++) {
+            for (int yy = 0; yy < w; yy++) {
+                int pixel = image.getRGB(xx,yy);
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = pixel & 0xff;
+
+                if(red ==255 && green == 255 && blue == 255) addObject(new Block(xx*32,yy*32,0, ObjectId.Block));
+                if(red ==128 && green == 128 && blue == 128) addObject(new Block(xx*32,yy*32,1,ObjectId.Block));
+                if(red ==0 && green == 0 && blue == 255) addObject(new Player(xx*32,yy*32, this, cam, ObjectId.Player));
+                if(red ==240 && green == 255 && blue == 38) addObject(new Gate(xx*32,yy*32, ObjectId.Gate));
+            }
+        }
+    }
+
+    public void switchLevel() {
+        clearLevel();
+        cam.setX(0);
+
+        switch(Game.level) {
+            case 1:
+                loadImageLevel(tex.getLevel2());
+                break;
+        }
+        Game.level++;
+    }
+
+    private void clearLevel() {
+        object.clear();
     }
 
     public void addObject(GameObject object) {

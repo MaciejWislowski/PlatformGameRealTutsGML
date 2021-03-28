@@ -3,6 +3,7 @@ package platformgame.game;
 import platformgame.framework.KeyInput;
 import platformgame.framework.ObjectId;
 import platformgame.gameobject.Block;
+import platformgame.gameobject.Gate;
 import platformgame.gameobject.Player;
 import platformgame.gameobject.Test;
 import platformgame.graphics.BufferedImageLoader;
@@ -20,31 +21,27 @@ public class Game extends Canvas implements Runnable {
 
     public static int WIDTH, HEIGHT;
 
-    private BufferedImage level = null;
 
     // Object
 
     Handler handler;
     Camera cam;
     static Texture tex;
+    public static int level = 1;
 
     private void init() {
         System.out.println(Physics.G);
         WIDTH = getWidth();
         HEIGHT = getHeight();
-
-        tex = new Texture();
-
-        BufferedImageLoader loader = new BufferedImageLoader();
-        level = loader.loadImage("/platformgame/resources/level/level1.png");
-
-
-
-        handler = new Handler();
         cam = new Camera(0,0);
+        tex = new Texture();
+        handler = new Handler(cam, tex);
+
+
+
 
         //temp
-        LoadImageLevel(level);
+        handler.loadImageLevel(tex.getLevel());
 
         this.addKeyListener(new KeyInput(handler));
     }
@@ -130,25 +127,7 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    private void LoadImageLevel(BufferedImage image){
-        int w = image.getWidth();
-        int h = image.getHeight();
 
-        System.out.println("Level width: " + w + "; Level height: " + h + ";");
-
-        for(int xx = 0; xx < h; xx++) {
-            for (int yy = 0; yy < w; yy++) {
-                int pixel = image.getRGB(xx,yy);
-                int red = (pixel >> 16) & 0xff;
-                int green = (pixel >> 8) & 0xff;
-                int blue = pixel & 0xff;
-
-                if(red ==255 && green == 255 && blue == 255) handler.addObject(new Block(xx*32,yy*32,0,ObjectId.Block));
-                if(red ==128 && green == 128 && blue == 128) handler.addObject(new Block(xx*32,yy*32,1,ObjectId.Block));
-                if(red ==0 && green == 0 && blue == 255) handler.addObject(new Player(xx*32,yy*32,handler,ObjectId.Player));
-            }
-        }
-    }
 
     public static Texture getInstance() {
         return tex;

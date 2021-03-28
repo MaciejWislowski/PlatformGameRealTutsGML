@@ -2,7 +2,10 @@ package platformgame.gameobject;
 
 import platformgame.framework.GameObject;
 import platformgame.framework.ObjectId;
+import platformgame.game.Game;
 import platformgame.game.Handler;
+import platformgame.game.Physics;
+import platformgame.graphics.Texture;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -10,10 +13,12 @@ import java.util.LinkedList;
 public class Player extends GameObject {
 
     private float width = 32, height = 64;
-    private float gravity = 0.4f;
     private final float MAX_SPEED = 10;
+    private final float gravity = 0.5f;
 
      private Handler handler;
+
+     Texture tex = Game.getInstance();
 
 
     public Player(float x, float y, Handler handler, ObjectId id) {
@@ -28,8 +33,8 @@ public class Player extends GameObject {
         if(falling || jumping) {
             velY += gravity;
 
-            if(velY > MAX_SPEED) {
-                velY = MAX_SPEED;
+            if(velY > Physics.TV) {
+                velY = (float) Physics.TV;
             }
         }
 
@@ -44,10 +49,14 @@ public class Player extends GameObject {
             if(tempObject.getId() == ObjectId.Block) {
                 // Bottom collisions
                 if(getBounds().intersects(tempObject.getBounds())) {
-                    y = tempObject.getY()-height;
+                    if(velY >= 20){
+                        System.out.println("TOT");
+                    }
+                    y = tempObject.getY()-height+1;
                     velY = 0;
                     falling = false;
                     jumping = false;
+
                 } else {
                     falling = true;
                 }
@@ -71,16 +80,7 @@ public class Player extends GameObject {
 
 
     public void render(Graphics g) {
-        g.setColor(Color.blue);
-        g.fillRect((int)x,(int)y, (int)width, (int)height);
-
-        Graphics2D g2d = (Graphics2D) g;
-        g.setColor(Color.red);
-        g2d.draw(getBounds());
-        g2d.draw(getBoundsRight());
-        g2d.draw(getBoundsLeft());
-        g2d.draw(getBoundsTop());
-
+        g.drawImage(tex.player[0],(int)x,(int)y,(int)width,(int)height,null );
     }
 
     // Collisions

@@ -6,6 +6,7 @@ import platformgame.gameobject.Block;
 import platformgame.gameobject.Player;
 import platformgame.gameobject.Test;
 import platformgame.graphics.BufferedImageLoader;
+import platformgame.graphics.Texture;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -22,25 +23,28 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage level = null;
 
     // Object
+
     Handler handler;
     Camera cam;
+    static Texture tex;
 
     private void init() {
+        System.out.println(Physics.G);
         WIDTH = getWidth();
         HEIGHT = getHeight();
 
+        tex = new Texture();
+
         BufferedImageLoader loader = new BufferedImageLoader();
         level = loader.loadImage("/platformgame/resources/level/level1.png");
+
+
 
         handler = new Handler();
         cam = new Camera(0,0);
 
         //temp
         LoadImageLevel(level);
-
-
-//        handler.addObject(new Player(100,100, handler, ObjectId.Player));
-//        handler.createLevel();
 
         this.addKeyListener(new KeyInput(handler));
     }
@@ -139,10 +143,14 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = pixel & 0xff;
 
-                if(red ==255 && green == 255 && blue == 255) handler.addObject(new Block(xx*32,yy*32,ObjectId.Block));
+                if(red ==255 && green == 255 && blue == 255) handler.addObject(new Block(xx*32,yy*32,1,ObjectId.Block));
                 if(red ==0 && green == 0 && blue == 255) handler.addObject(new Player(xx*32,yy*32,handler,ObjectId.Player));
             }
         }
+    }
+
+    public static Texture getInstance() {
+        return tex;
     }
 
     public static void main(String[] args) {
